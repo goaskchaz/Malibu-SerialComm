@@ -1,0 +1,290 @@
+SerialComm — ORIGINAL VB6 IDE LISTING: TEXT EXTRACTED FROM PDF SCAN
+Source: Adobe Scan Nov 19, 2026.pdf; scanned PDF pages 38–41 of 41
+
+IMPORTANT: This is a RAW machine text extraction of photographed/scanned VB6 IDE text.
+It contains OCR errors, missing punctuation, clipped lines and broken formatting.
+It is NOT a verified transcription, NOT compilable, and NOT reconstructed code.
+No form properties, control definitions, events or methods have been recreated.
+Preserve the original scan for comparison before correcting any line.
+
+================================================================
+
+<PARSED TEXT FOR PAGE: 38 / 41>
+         sbStatusBar. Panels.Item(5)
+       frmMon.show                               - MSComm1.Settings
+      nd sub
+      ivate Sub
+                 mnuFilePrint Click )
+       ulel . mnuFilePrint
+        Sub                      ()
+ Dr1vate Sub mnuSetPort
+      frmComSet.show                  Click ()
+ End Sub
+ Drivate Sub MSCommi OnComm ()
+   Dim inbuffer As
+   Dim Stringlen As String
+                     Integer
+      Strimgien=34Important
+      * Comm EVnts                                  Lenght   of Data Burst    NEED TO   KNOW! !!!
+      MSComml. RThreshold = 1 'Set
+      select Case MSComm1.          OnComm Event to fire ag each bit Comes through - NEED & Set to 1
+                            CommEvent
+              Communication Errors
+              Communication Events
+        Case comEvReceive
+             inbuf fer = MSComm1.
+                                  Input 'Reads the Input Buffer
+             txtDisplay (0).SelStart   Len (txtDisplay (0) .Text) 'Display on text field (aka like Hyper Te
+Im)
+         txtDisplay (0) .SelText = inbuffer
+        End Select
+
+        ***> Data to Buffer
+        strBuffer = strBuffer & inbuffer
+        I***     Buffer to be Parsed
+        L ben(strButfer)              > StringLen Then DataPoint strBuffer 'send data burst to be parsed
+       Sub
+PÈ te Sub DataPoint (ByRef strBuffer As
+ Dim strRTUStart As String              String)
+ Dim strRTU, strvolts, strTemp, strLevel As String
+ Dim intVolts, intTemp, intLevel As Long
+
+               RTU
+                strRTUStart = InStr (strBuffer, "@")
+                strRTU = Mid (strBuffer, strRTUStart, 3)
+                If    strRTU =   "@ml    n   Then
+                                                                             Get RTV
+               frmMon. lblTitle.Caption = strRTU &                  McConnel Lake   RTU Reports"
+               End If
+
+               Get Level
+               strLevel = GetDP (strBuffer, "l=", 4) Ireturnvalue = function ().
+               Debug.Print "Level is " & strLevel
+               intLevel = Format (Val (strLevel), "Fixed" )                  <== WHY IS THIS ROUNDING
+               Debug. Print intLevel
+               frmMon. lblWaterNum. Caption = intLevel
+
+               'Set Level Alarm
+               If intLevel >= 12.5 Then 'Set Value or Range
+                  frmMon. shpLED1 (0).FillColor = &HFF& 'Red Alert or Alert State
+               ElseIf intLevel < 12.4 Then
+                     frmMon.shpLED1 (0) .FillColor = &HFFO0 &                'Green Alert or Normal State
+               End If
+
+             Get Volts
+
+               strVolts = GetDP (strBuffer, "v=", 4
+              Debug. Print "Volts is " & strVolts
+              intVolts = Format (Val(strVolts),                "Fixed")
+              Debug. Print intVolts
+              frmMon. lblvoltsNum (1) . Caption = int Volts
+               'Set Volt Alarm
+<PARSED TEXT FOR PAGE: 39 / 41>
+frmTerminal
+
+                 4ntVolts         12,1) O      int olts <m 11.9) Then    Set Value or Range
+                       mMOn. shpLED2 (1)Eillc)or    SHEES Red Alert or Alert state
+                Elself intVolts      12 Then
+                    mMon
+                End 1f   . shpLED2 (1) .Fi)Color    HFFO0& 'Green Alert or Normal State
+
+               Temp
+                stiTemp = GetDP (strBuffer, "t",
+                  Debug.Print nTemp is " & strTemp4)
+                intTemp = Format (Val (strTemp) ,
+                                                  "Fixed")
+                  Debug.Print int Temp
+                frmMon. lblTempNum (2).Capt ion = int Temp
+                'Set Temp Alarm
+                1f (int Temp s 76. 2)
+                                        Then
+                    frmMon. shpLED3 (2).FillColor = &HFF& 'Red Alert
+                Elself int Temp < 74 Then
+                   timMon.shpLED2 (1) .Fillcolor = &HFFO0& 'Green Alert or Normal State
+                End If
+
+
+                strBuffer =         Clear buffer for the next burst
+End Sub
+Private Function GetDP (ByVal strBuffer As String, ByVal DPLabel As String, ByVal DPItem As Integ
+er) As String
+  Dim DPSt artPos, DPReTurnItem As String
+     Begin
+        DPStartPos = Instr (strBuffer, DPLabel) !Find first or start position of the occourance
+                                                                         = sign Example "l=" So add
+     DPStartPos = DPStartPos + 2 'Data Point label has            2 char plus an
+ 2 to start pos
+        DPReTurnItem = Mid (strBuffer, DPStartPos, DPItem)
+        Debug. Print "ReTurn is " & DPReTurnItem & n Count = "; Len (DPReTurnItem)
+                  = DPReTurnItem To return a value from a function, assiqn the value to the function
+                                                                                                     n
+        GetbP
+        Function
+                                                                                                           p
+Private Sub btnQuit Click (Index As Integer)          I*** Ouit out of program and safty close down data
+Orts ***
+     Dim dbl EndTime As Double
+
+     MSComm1. Handshaking = 0
+     ***> Buffer cleaned out before buffer is closed
+     Do Until    MSComm1. OutBufferCount = 0
+       DoEvents
+     Loop
+      ***> Delav of tWo seconds
+     dblEndTime = Timer + l# 'wait 2 seconds
+     Do While dbl EndTime > Timer
+         I Do nothing but allow other applications to process
+                                                              their events.
+            DOEvents
+      Loop
+
+     I***> Shut Down Port and FOrms
+      MSComml. PortOpen = False 'Close the port
+             frmMon  'unload Monitor form
+     Unload
+     Unload Me 'unload form and   quit the application
+
+End Sub                              I*** Setup Comm Settings for Program and Forms ***
+Private Sub GetCommSettings ()
+                                   Pos, PortSet As String
+Dim strIniText, iniLabel, inistart      strSbit As String
+Di     trPort, Parity, strBaud, strDbit,
+        ort, iniItem As Integer
+
+ 'Begin                                  settings from set.ini file
+***> Get current Configuration
+                                                                  For Input As #1
+     Open "D:\Work\ Computing\Program\VB\SerialComm\set\set.ini"
+                                                             The File To strn iText
+       strIniText = Input$ (LOF (1), 1) 'Assigns The Text In
+<PARSED TEXT FOR PAGE: 40 / 41>
+ cre
+                            4
+      frmTerminal
+                                   The File
+        Close #1 'Closes
+            Setting for MSComm
+            *
+            Set Port                                            ue - funct i on )
+               Dot Get Set (striniText, "port=", 1) 'returnval
+       Hort    Va1 (strPort)       Tert. "baud-", 3) 'Set Baud Rate
+        stıBud GetSet (stIni 3 or 4 depending on Speed selection
+        STD eed  to   set  Char  -
+                                         "dbit-", 1) Set Data Bit
+       strDbit = Get Set (strIniText. "sbit-
+       etrSbit = GetSet (strlniText,           ", 1) 'Set Stop Bit
+       parity = GetSet (striniText,     "prty-", 1)  'Set Parity
+
+      At Set MSComm Settings
+      Nith MSComm 1
+         CommPort   Port
+                InBufferCount = 0          flush the input buffer
+            Settings   strBaud & ", " & Parity & "," & strDbit & ", & strSbit
+            InputLen = 0 'MSComm to read buffer when Input is used, zero casues input proporty to read
+ entire contents
+            Portopen    =   True
+     End With
+     strPortstatus =            "Open"
+
+ End Sub
+
+ Pyivate Function Getset (ByVal strIniText As String, ByVal iniLabel As String, ByVal iniItem As I
+ nteger) As String
+  Dim iniStartPos, ReTurnItem As String
+   Begin
+        iniStart Pos = InStr (strIniText, iniLabel)                 Find first or start position of the occourance
+       iniStartPOs = iniStartpos + 5 ini label has 4 char plus an = sign Example "Port=" So add 5
+      start pos
+       ReTurnItem = Mid (strIniText, inistartPos, iniItem)
+       GetSet = ReTurnItem To return a value from a function, assign the value to the function na
+me
+End Function
+                                     STD
+To wOrk out
+     Stand file names and location when loading on any computer
+     Baud Speed Char - Need to set Char = 3 or 4 depending on Speed selection
+     Install Wizard- How does it work??
+     Use Tab configuration form for all setup features
+     Data Logger for all data.
+     FTP routine = Winsock Control???
+     Convert to PHP and Internet tags
+     Object for Data  Points    resuse
+        *
+                  **** ** Revisons *k ****
+
+
+
+                                                          Panel As MSComctlLib. Panel)
+Private Sub sbStatusBar PanelClick (ByVal
+End Sub
+<PARSED TEXT FOR PAGE: 41 / 41>
+minal        1
+
+
+
+
+Tam: RTU Serial Communicat i on Program (RTU SerComm) Prototype
+ haz Hitz (Hit 2Comm) 11-02-2004
+tion: Terminal Porgram/ Form
+ion 1.00
+sion: see below
+
+bn Explicit
+strPortStatus As String
+strBuf fer As string           count the number of data burst or OnComm Events happen
+diive, iconPath, fileGreenlcon, fileRed Icon, openGreenLED, openRedLED As String
+ate Sub btnMon click (Index As Integer)
+mMon.Show
+Sub
+vate Sub btnRecClr Click (Index As Integer)
+xtDisplay (0).Text =
+ Sub
+vate Sub btnRecStart click (Index As Integer)
+Open the port
+MSComml. Portopen = True
+strPortstatus = "Open"
+ sbStatusBar. Panels.Item (3) = "Port:         " & strPortStatus
+sbStatusBar. Panels.Item(3) .Picture = LoadPicture (openGreenLED)
+nd Sub
+ ivate Sub btnRecStop Click(Index As Integer)
+ Close the port
+ MSComml. Portopem = False
+ strPortstatus = "Closed"
+  sbStatusBar. Panels.Item (3) = "POrt:        I" &strPortStatus
+  sbStatusBar. Panels.Item (3) .Picture = LoadPicture (openRedLED)
+nd Sub
+   ate Sub btnSendClear Click(Index As Integer)
+   clear Tx display
+  txtSendDisplay (1).Text = " "
+End Sub
+
+Private Sub btnSendSelectRTU Click (Index As Integer)
+frmRTUSelect.Show
+End sub
+Private Sub btnSendStart Click (Index As Integer)
+   Dim ommand As Variant
+                                             Get Command from text field
+   Command = txtTypeTextSend. Text
+   WAKEUP Modem RTS Command
+    'Delay 1 sec                                   Send command to Modem
+   MSComm1.Output = Command & Chr$ (13)                  Command & Chr$ (13) & Chr$ (10) 'Display in X£
+    txtSendDisplay (1).Text = txtSendDisplay (1) .Text &
+  er Text bOx
+                                                                   = NOW & "-->   n &   outBuf fer & Chr$ (13)
+         To be used with Data logger txtSendDisplay (1).Text
+  End sub
+  Private Sub Form Load )
+       'Get File Settings
+          drive = "D: "
+          iconPath = "\Work\Computing\ Program\ VB\SerialComm\ icon\"
+          fileGreenIcon = "GreenLED.ico"
+          fileRedIcon     = "RedLED. ico !
+
+          openGreenLED = drive & iconPath & fileGreenIcon
+          openRedLED = drive & iconPath & fileRedIcon
+         Get Comm Settings
+          GetCommSettings
+       'Display Status                               & str PortStatus
+          sbStatusBar.Panels. Item (3) = "Port: = " LoadPicture (openGreenLED)
+          sbStatusBar.Panels. Item (3).Picture
+            bStatusBar.Panels.Item (4 )   "COM" & Str (MSComm1.CommPort)

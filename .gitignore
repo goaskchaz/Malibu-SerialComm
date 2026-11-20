@@ -1,0 +1,19 @@
+*.vbw
+*.log
+*.tmp
+*.bak
+*.obj
+*.pdb
+*.ilk
+*.scc
+*.exe
+*.dll
+*.ocx
+*.cab
+*.msi
+*.local.ini
+*.secret
+.env
+.env.*
+!*.example
+# Preserve .vbp .frm .frx .bas .cls .res source assets

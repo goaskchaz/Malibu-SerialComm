@@ -18,3 +18,7 @@ The repository is being organized for preservation of original source, documente
 Recover original `.vbp`, `.frm`, `.frx`, `.bas`, `.cls`, and `.res` files. Inventory dependencies, confirm serial protocol and test only in isolated environments before considering live equipment.
 
 No license has been selected.
+
+## Historical source
+
+- [Malibu Hydro SCADA historical narrative](Docs/Historical/Malibu_Hydro_SCADA_Historical_Document.md) — original system description, HMI, radio telemetry, RTUs and load management. The source refers to figures not supplied in the text extract.
